@@ -2554,4 +2554,60 @@ def run_bot():
 
 if __name__ == "__main__":
     threading.Thread(target=run_flask).start()
+
+    run_bot()
+
+#НИЖЕ КОД ДЛЯ ХОСТИНГА 
+
+import http.server
+import socketserver
+import threading
+import os
+import sys
+import traceback
+import time
+
+class HealthCheckHandler(http.server.SimpleHTTPRequestHandler):
+    def do_GET(self):
+        if self.path == '/' or self.path == '/health':
+            self.send_response(200)
+            self.send_header('Content-type', 'text/plain')
+            self.end_headers()
+            self.wfile.write(b'Bot is running')
+        else:
+            self.send_response(404)
+            self.end_headers()
+
+    def log_message(self, format, *args):
+        # Подавляем логи запросов, чтобы не засорять вывод
+        pass
+
+class ReusableTCPServer(socketserver.TCPServer):
+    allow_reuse_address = True
+
+def run_http_server():
+    port = int(os.environ.get('PORT', 8000))
+    handler = HealthCheckHandler
+    time.sleep(1)
+    try:
+        with ReusableTCPServer(("", port), handler) as httpd:
+            httpd.serve_forever()
+    except OSError as e:
+        print(f"❌ Не удалось запустить HTTP-сервер на порту {port}: {e}", file=sys.stderr)
+        alt_port = port + 1
+        print(f"Пробуем порт {alt_port}...", file=sys.stderr)
+        with ReusableTCPServer(("", alt_port), handler) as httpd:
+            httpd.serve_forever()
+
+def run_bot():
+    try:
+        main()
+    except Exception as e:
+        print("❌ Ошибка в боте:", file=sys.stderr)
+        traceback.print_exc(file=sys.stderr)
+        while True:
+            time.sleep(60)
+
+if __name__ == "__main__":
+    threading.Thread(target=run_http_server, daemon=True).start()
     run_bot()
