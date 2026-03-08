@@ -2614,7 +2614,8 @@ import os
 import sys
 import traceback
 
-app = Flask(name)
+app = Flask(__name__)
+
 
 @app.route('/')
 @app.route('/health')
@@ -2639,4 +2640,5 @@ def run_bot():
 if name == "main":
     threading.Thread(target=run_flask).start()
     run_bot()
+
 
