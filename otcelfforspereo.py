@@ -9,23 +9,7 @@ from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes, CallbackQueryHandler
 from telegram.error import Conflict, NetworkError
 import threading
-from flask import Flask
-import os
 
-app = Flask(__name__)
-
-@app.route('/')
-def health_check():
-    return "Бот работает!", 200
-
-def run_flask():
-    # Render передает номер порта через переменную окружения PORT
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host='0.0.0.0', port=port)
-
-# Запускаем веб-сервер в фоновом потоке
-flask_thread = threading.Thread(target=run_flask, daemon=True)
-flask_thread.start()
 
 # ------------------ КОДЫ ЯЗЫКОВ ------------------
 LANG_RU = 'ru'
@@ -2623,4 +2607,36 @@ if __name__ == "__main__":
     threading.Thread(target=run_http_server, daemon=True).start()
     run_bot()
 
+# ===== КОД ДЛЯ ХОСТА =====
+from flask import Flask
+import threading
+import os
+import sys
+import traceback
+
+app = Flask(name)
+
+@app.route('/')
+@app.route('/health')
+def health():
+    return "Bot is running", 200
+
+def run_flask():
+    port = int(os.environ.get('PORT', 8000))
+    app.run(host='0.0.0.0', port=port)
+
+def run_bot():
+    try:
+        main()  # запуск вашего бота
+    except Exception as e:
+        # Печатаем ошибку в stderr, чтобы она попала в логи Render
+        print("❌ Ошибка в боте:", file=sys.stderr)
+        traceback.print_exc(file=sys.stderr)
+        # Не завершаем процесс, чтобы Render не перезапускал бесконечно
+        while True:
+            time.sleep(60)
+
+if name == "main":
+    threading.Thread(target=run_flask).start()
+    run_bot()
 
