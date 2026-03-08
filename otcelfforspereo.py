@@ -5,16 +5,16 @@ import asyncio
 import sys
 import time
 from datetime import datetime, timedelta
-#from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
-#from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes, CallbackQueryHandler
-#from telegram.error import Conflict, NetworkError
+from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
+from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes, CallbackQueryHandler
+from telegram.error import Conflict, NetworkError
 import threading
 from flask import Flask
 import os
 import threading
 #from flask import Flask
-import telebot
-from telebot import TeleBot
+#import telebot
+#from telebot import TeleBot
 
 bot = TeleBot("8365274638:AAGXMYTAVzH8V-ymffpHh1sgggifDtYoQeg") 
 
@@ -2678,6 +2678,7 @@ if __name__ == "__main__":
 
     threading.Thread(target=run_flask).start()
     run_bot()
+
 
 
 
