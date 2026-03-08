@@ -19,6 +19,7 @@ from telegram.ext import ApplicationBuilder
 
 
 app = Flask(__name__)
+bot = telebot.TeleBot("8365224638:AAEXVNYTAV-ywfPlMj5SggclDT6YreDsq7")
 
 
 @app.route('/')
@@ -2659,6 +2660,8 @@ app = Flask(__name__)
 def health():
     return "Bot is running", 200
 
+threading.Thread(target=lambda: app.run(host='0.0.0.0', port=10000), daemon=True).start()
+
 def run_flask():
     port = int(os.environ.get('PORT', 8000))
     app.run(host='0.0.0.0', port=port)
@@ -2678,6 +2681,7 @@ if __name__ == "__main__":
 
     threading.Thread(target=run_flask).start()
     run_bot()
+
 
 
 
