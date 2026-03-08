@@ -2549,7 +2549,7 @@ def run_bot():
         while True:
             time.sleep(60)
 
-if __name__ == "__main__":
+if __name__ == "__main__"
     threading.Thread(target=run_flask).start()
 
     run_bot()
@@ -2643,6 +2643,7 @@ if __name__ == "__main__":
 
     threading.Thread(target=run_flask).start()
     run_bot()
+
 
 
 
