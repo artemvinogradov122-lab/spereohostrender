@@ -5,14 +5,14 @@ import asyncio
 import sys
 import time
 from datetime import datetime, timedelta
-from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
+#from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes, CallbackQueryHandler
 from telegram.error import Conflict, NetworkError
 import threading
-from flask import Flask
+#from flask import Flask
 import os
 import threading
-from flask import Flask
+#from flask import Flask
 import telebot
 from telebot import TeleBot
 
@@ -2677,6 +2677,7 @@ if __name__ == "__main__":
 
     threading.Thread(target=run_flask).start()
     run_bot()
+
 
 
 
