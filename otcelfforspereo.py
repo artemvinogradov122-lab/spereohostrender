@@ -25,8 +25,7 @@ def run_web_server():
     app.run(host='0.0.0.0', port=port)
 
 def start_bot():
-    # Сюда вставьте команду запуска вашего бота
-    # Например: bot.polling(none_stop=True) или application.run_polling()
+    bot.polling(none_stop=True)
     print("Бот запущен в фоне!")
 threading.Thread(target=start_bot, daemon=True).start()
 
@@ -2670,6 +2669,7 @@ if __name__ == "__main__":
 
     threading.Thread(target=run_flask).start()
     run_bot()
+
 
 
 
