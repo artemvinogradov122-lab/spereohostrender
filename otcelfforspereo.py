@@ -14,6 +14,8 @@ import os
 import threading
 from flask import Flask
 
+bot = TeleBot("8365274638:AAGXMYTAVzH8V-ymffpHh1sgggifDtYoQeg") 
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -34,6 +36,10 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     return "Бот активен", 200
+
+app = Flask(__name__)
+@app.route('/')
+def index(): return "OK", 200
 
 # Запускаем сервер в отдельном потоке, чтобы он не мешал боту
 threading.Thread(target=run_web_server, daemon=True).start()
@@ -2669,6 +2675,7 @@ if __name__ == "__main__":
 
     threading.Thread(target=run_flask).start()
     run_bot()
+
 
 
 
