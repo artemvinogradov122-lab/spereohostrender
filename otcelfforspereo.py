@@ -9,6 +9,8 @@ from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes, CallbackQueryHandler
 from telegram.error import Conflict, NetworkError
 import threading
+from flask import Flask
+
 
 
 # ------------------ КОДЫ ЯЗЫКОВ ------------------
@@ -2640,5 +2642,6 @@ def run_bot():
 if name == "main":
     threading.Thread(target=run_flask).start()
     run_bot()
+
 
 
