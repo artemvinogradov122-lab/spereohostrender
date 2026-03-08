@@ -20,6 +20,7 @@ bot = TeleBot("8365274638:AAGXMYTAVzH8V-ymffpHh1sgggifDtYoQeg")
 
 app = Flask(__name__)
 
+
 @app.route('/')
 def health_check():
     return "Бот работает!", 200
@@ -2677,6 +2678,7 @@ if __name__ == "__main__":
 
     threading.Thread(target=run_flask).start()
     run_bot()
+
 
 
 
