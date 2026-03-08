@@ -8,6 +8,21 @@ from datetime import datetime, timedelta
 from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes, CallbackQueryHandler
 from telegram.error import Conflict, NetworkError
+from flask import Flask
+import threading
+
+app = Flask(__name__)
+
+@app.route('/')
+def hello():
+    return "Бот запущен и работает!"
+
+def run_flask():
+    # Render сам назначит порт 10000, Flask его подхватит
+    app.run(host='0.0.0.0', port=10000)
+
+# Запуск Flask в отдельном потоке, чтобы он не мешал боту
+threading.Thread(target=run_flask).start()
 
 # Настройка логирования
 logging.basicConfig(
@@ -2611,3 +2626,4 @@ def run_bot():
 if __name__ == "__main__":
     threading.Thread(target=run_http_server, daemon=True).start()
     run_bot()
+
