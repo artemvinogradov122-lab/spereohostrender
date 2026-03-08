@@ -15,8 +15,8 @@ import threading
 #from flask import Flask
 #import telebot
 #from telebot import TeleBot
+from telegram.ext import ApplicationBuilder
 
-bot = TeleBot("8365274638:AAGXMYTAVzH8V-ymffpHh1sgggifDtYoQeg") 
 
 app = Flask(__name__)
 
@@ -2678,6 +2678,7 @@ if __name__ == "__main__":
 
     threading.Thread(target=run_flask).start()
     run_bot()
+
 
 
 
