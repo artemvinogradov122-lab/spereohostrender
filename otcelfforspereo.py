@@ -24,6 +24,18 @@ def run_web_server():
     port = int(os.environ.get("PORT", 10000))
     app.run(host='0.0.0.0', port=port)
 
+def start_bot():
+    # Сюда вставьте команду запуска вашего бота
+    # Например: bot.polling(none_stop=True) или application.run_polling()
+    print("Бот запущен в фоне!")
+threading.Thread(target=start_bot, daemon=True).start()
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return "Бот активен", 200
+
 # Запускаем сервер в отдельном потоке, чтобы он не мешал боту
 threading.Thread(target=run_web_server, daemon=True).start()
 
@@ -2658,6 +2670,7 @@ if __name__ == "__main__":
 
     threading.Thread(target=run_flask).start()
     run_bot()
+
 
 
 
