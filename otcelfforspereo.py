@@ -8,28 +8,24 @@ from datetime import datetime, timedelta
 from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes, CallbackQueryHandler
 from telegram.error import Conflict, NetworkError
-from flask import Flask
 import threading
+from flask import Flask
+import os
 
 app = Flask(__name__)
 
 @app.route('/')
-def hello():
-    return "Бот запущен и работает!"
+def health_check():
+    return "Бот работает!", 200
 
 def run_flask():
-    # Render сам назначит порт 10000, Flask его подхватит
-    app.run(host='0.0.0.0', port=10000)
+    # Render передает номер порта через переменную окружения PORT
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host='0.0.0.0', port=port)
 
-# Запуск Flask в отдельном потоке, чтобы он не мешал боту
-threading.Thread(target=run_flask).start()
-
-# Настройка логирования
-logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO
-)
-logger = logging.getLogger(__name__)
+# Запускаем веб-сервер в фоновом потоке
+flask_thread = threading.Thread(target=run_flask, daemon=True)
+flask_thread.start()
 
 # ------------------ КОДЫ ЯЗЫКОВ ------------------
 LANG_RU = 'ru'
@@ -2626,4 +2622,5 @@ def run_bot():
 if __name__ == "__main__":
     threading.Thread(target=run_http_server, daemon=True).start()
     run_bot()
+
 
