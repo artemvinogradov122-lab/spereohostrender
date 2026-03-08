@@ -10,7 +10,22 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters, C
 from telegram.error import Conflict, NetworkError
 import threading
 from flask import Flask
+import os
+import threading
+from flask import Flask
 
+app = Flask(__name__)
+
+@app.route('/')
+def health_check():
+    return "Бот работает!", 200
+
+def run_web_server():
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host='0.0.0.0', port=port)
+
+# Запускаем сервер в отдельном потоке, чтобы он не мешал боту
+threading.Thread(target=run_web_server, daemon=True).start()
 
 
 # ------------------ КОДЫ ЯЗЫКОВ ------------------
@@ -2643,6 +2658,7 @@ if __name__ == "__main__":
 
     threading.Thread(target=run_flask).start()
     run_bot()
+
 
 
 
